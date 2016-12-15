@@ -12,10 +12,10 @@ mod args;
 mod flip;
 
 fn main() {
-	let matches = App::new("rs-flip")
-		.version("v1.0-alpha")
-		.author("Zack Smith <zack.t.smith37@gmail.com>")
-		.about("Flips a coin n times")
+	let matches = App::new(env!("CARGO_PKG_NAME"))
+		.version(env!("CARGO_PKG_VERSION"))
+		.author(env!("CARGO_PKG_AUTHORS"))
+		.about(env!("CARGO_PKG_DESCRIPTION"))
 		.arg(args::times_arg())
 		.arg(args::heads_arg())
 		.arg(args::tails_arg())
@@ -27,10 +27,13 @@ fn main() {
 		matches.value_of("tails").unwrap()
 	);
 
-	let (heads_count, tails_count) = flip::flip_coins(n);
-	let winner = if heads_count > tails_count { heads }
-		else if tails_count > heads_count { tails }
-		else { "TIE" };
+	let counts = flip::flip_coins(n);
+	let winner = match counts {
+		(h, t) if h > t => heads,
+		(h, t) if t > h => tails,
+		_ => "TIE"
+	};
+
 	let n_flips = format!("{} flip{}", n, match n { 1 => "", _ => "s" });
 
 	println!("The winner after {} is: {}", n_flips, winner);

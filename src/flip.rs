@@ -48,6 +48,16 @@ mod bench {
 	}
 
 	#[bench]
+	fn bench_coin_flips_10000_iterative(b: &mut Bencher) {
+		b.iter(|| _flip_coins_(10000));
+	}
+
+	#[bench]
+	fn bench_coin_flips_10000_pipeline(b: &mut Bencher) {
+		b.iter(|| flip_coins(10000))
+	}
+
+	#[bench]
 	fn bench_coin_flips_20000_iterative(b: &mut Bencher) {
 		b.iter(|| _flip_coins_(20_000));
 	}
