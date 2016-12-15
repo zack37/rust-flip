@@ -8,11 +8,25 @@ pub fn flip_coins(n: usize) -> (usize, usize) {
 	}
 	let mut rng = StdRng::new().expect("OS Random not initialized");
 	rng.gen_iter()
-	.take(n)
-	.fold((0_usize,0_usize), |acc, cur| match cur {
-		true => (acc.0+1, acc.1),
-		false => (acc.0, acc.1+1)
-	})
+		.take(n)
+		.fold((0_usize,0_usize), |acc, cur| match cur {
+			true => (acc.0+1, acc.1),
+			false => (acc.0, acc.1+1)
+		})
+}
+
+pub fn flip_best_of(n: usize) -> (usize, usize) {
+	let mut rng = StdRng::new().expect("OS Random not initialized");
+	let mut counts = (0, 0);
+	let half = (n as f64 / 2.0).ceil() as usize;
+	rng.gen_iter()
+		.take_while(|&flip| {
+			if flip { counts.0 += 1 }
+			else { counts.1 += 1 }
+			counts.0 <= half && counts.1 <= half
+		})
+		.collect::<Vec<bool>>();
+	counts
 }
 
 fn _flip_coins_(n: usize) -> (usize, usize) {

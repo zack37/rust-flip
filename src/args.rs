@@ -5,7 +5,7 @@ pub fn times_arg() -> Arg<'static, 'static> {
 		.short("n")
 		.long("times")
 		.help("Number of times to flip the coin")
-		.default_value("1")
+		.takes_value(true)
 }
 
 pub fn heads_arg() -> Arg<'static, 'static> {
@@ -22,4 +22,13 @@ pub fn tails_arg() -> Arg<'static, 'static> {
 		.long("tails")
 		.help("Value for tails")
 		.default_value("tails")
+}
+
+pub fn best_of_arg() -> Arg<'static, 'static> {
+	Arg::with_name("best_of")
+		.short("b")
+		.long("best-of")
+		.help("Flip until either heads or tails passes half way")
+		.takes_value(true)
+		.conflicts_with("times")
 }
