@@ -1,10 +1,10 @@
 ## Rust Flip
-A coin flipping CLI tool written in Rust using clap.
+A coin flipping CLI tool written in Rust using [clap](https://clap.rs/).
 
 ## Installation
-Clone from git `git clone https://github.com/zack37/rust-flip.git`
-Build `cargo build --release`
-Run `./target/release/rust-flip`
+- Clone from git `git clone https://github.com/zack37/rust-flip.git`
+- Build `cargo build --release`
+- Run `./target/release/rust-flip`
 
 ## Usage
 ```
