@@ -17,16 +17,17 @@ pub fn flip_coins(n: usize) -> (usize, usize) {
 
 pub fn flip_best_of(n: usize) -> (usize, usize) {
 	let mut rng = StdRng::new().expect("OS Random not initialized");
-	let mut counts = (0, 0);
-	let half = (n as f64 / 2.0).ceil() as usize;
-	rng.gen_iter()
-		.take_while(|&flip| {
-			if flip { counts.0 += 1 }
-			else { counts.1 += 1 }
-			counts.0 <= half && counts.1 <= half
-		})
-		.collect::<Vec<bool>>();
-	counts
+	// best of 7 = 4, best of 8 = 5
+	let half = ((n+1) as f64 / 2.0).ceil() as usize;
+
+	let (mut head_count, mut tail_count) = (0, 0);
+	while head_count <= half && tail_count <= half {
+		match rng.gen() {
+			true => head_count += 1,
+			false => tail_count += 1
+		}
+	}
+	(head_count, tail_count)
 }
 
 fn _flip_coins_(n: usize) -> (usize, usize) {
@@ -63,12 +64,12 @@ mod bench {
 
 	#[bench]
 	fn bench_coin_flips_10000_iterative(b: &mut Bencher) {
-		b.iter(|| _flip_coins_(10000));
+		b.iter(|| _flip_coins_(10_000));
 	}
 
 	#[bench]
 	fn bench_coin_flips_10000_pipeline(b: &mut Bencher) {
-		b.iter(|| flip_coins(10000))
+		b.iter(|| flip_coins(10_000))
 	}
 
 	#[bench]
@@ -99,6 +100,26 @@ mod bench {
 	#[bench]
 	fn bench_coin_flips_2000000_pipeline(b: &mut Bencher) {
 		b.iter(|| flip_coins(2_000_000))
+	}
+
+	#[bench]
+	fn bench_best_of_2000(b: &mut Bencher) {
+		b.iter(|| flip_best_of(2_000))
+	}
+
+	#[bench]
+	fn bench_best_of_20000(b: &mut Bencher) {
+		b.iter(|| flip_best_of(20_000))
+	}
+
+	#[bench]
+	fn bench_best_of_200000(b: &mut Bencher) {
+		b.iter(|| flip_best_of(200_000))
+	}
+
+	#[bench]
+	fn bench_best_of_2000000(b: &mut Bencher) {
+		b.iter(|| flip_best_of(2_000_000))
 	}
 
 }

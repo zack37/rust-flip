@@ -1,8 +1,10 @@
 [package]
 authors = ["Zack Smith <zack.smith@motorolasolutions.com>"]
+description = "Flips a coin `n` times with optional results for heads and tails"
 name = "rust-flip"
 version = "1.0.0"
-description = "Flips a coin `n` times with optional results for heads and tails"
+repository="https://github.com/zack37/rust-flip"
+readme="./README.md"
 
 [dependencies]
 clap = "2.19.2"
